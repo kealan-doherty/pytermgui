@@ -33,6 +33,7 @@ from .serialization import *
 from .term import *
 from .widgets import *
 from .window_manager import *
+from .overflow_preventer import *
 
 # Silence warning if running as standalone module
 if "-m" in sys.argv:  # pragma: no cover
@@ -40,7 +41,7 @@ if "-m" in sys.argv:  # pragma: no cover
 
     warnings.filterwarnings("ignore")
 
-__version__ = "7.7.4"
+__version__ = "0.1.0"
 
 
 def auto(data: Any, **widget_args: Any) -> Optional[Widget | list[Splitter]]:

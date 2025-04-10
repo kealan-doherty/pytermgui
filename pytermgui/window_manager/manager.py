@@ -64,7 +64,6 @@ class WindowManager(Widget):  # pylint: disable=too-many-instance-attributes
         """Initialize the manager."""
 
         super().__init__()
-
         self._is_running = False
         self._windows: list[Window] = []
         self._bindings: dict[str | Type[MouseEvent], tuple[BoundCallback, str]] = {}
@@ -652,3 +651,6 @@ class WindowManager(Widget):  # pylint: disable=too-many-instance-attributes
         animator.schedule(leadup)
 
         return toast
+
+
+

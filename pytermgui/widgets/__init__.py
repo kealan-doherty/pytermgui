@@ -21,6 +21,7 @@ from .slider import Slider
 from .styles import *
 from .toggle import Toggle
 
+
 WidgetType = Union[Widget, Type[Widget]]
 
 

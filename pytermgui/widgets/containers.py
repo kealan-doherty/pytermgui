@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from itertools import zip_longest
 from typing import Any, Callable, Iterator, cast
-
+from ..overflow_preventer import *
 from ..ansi_interface import MouseAction, MouseEvent, clear, reset
 from ..context_managers import cursor_at
 from ..enums import (
@@ -25,11 +25,13 @@ from ..regex import real_length, strip_markup
 from . import boxes
 from . import styles as w_styles
 from .base import ScrollableWidget, Widget
+import shutil
+
 
 
 class Container(ScrollableWidget):
     """A widget that displays other widgets, stacked vertically."""
-
+    container_height = 0
     styles = w_styles.StyleManager(
         border="surface",
         corner="surface",
@@ -56,30 +58,53 @@ class Container(ScrollableWidget):
 
     # TODO: Add `WidgetConvertible`? type instead of Any
     def __init__(self, *widgets: Any, **attrs: Any) -> None:
-        """Initialize Container data"""
-
         super().__init__(**attrs)
 
-        # TODO: This is just a band-aid.
         if not any("width" in attr for attr in attrs):
-            self.width = 40
+            self.width = 20
 
         self._widgets: list[Widget] = []
         self.dirty_widgets: list[Widget] = []
         self.centered_axis: CenteringPolicy | None = None
-
         self._prev_screen: tuple[int, int] = (0, 0)
         self._has_printed = False
+
+        total_height = 0
 
         for widget in widgets:
             self._add_widget(widget)
 
+            # Most widgets should have `.size`, which is (width, height)
+            if hasattr(widget, "size"):
+                size = widget.size
+
+                if isinstance(size, tuple):
+                    height = size[1]
+                elif isinstance(size, int):
+                    height = size
+                else:
+                    height = 1  # Fallback if it's something else
+
+                total_height += height
+
+        # Store it as an instance variable (optional)
+        self.container_height = total_height
+
+        # Compare to terminal height
+        terminal_height = shutil.get_terminal_size().lines
+
+        if total_height > terminal_height:
+            raise ValueError(
+                f"Container height ({total_height}) exceeds terminal height ({terminal_height})"
+            )
+
+
+        # Box logic
         if "box" not in attrs:
             attrs["box"] = "SINGLE"
 
         try:
             self.box = attrs["box"]
-        # Splitter doesn't use boxes ATM.
         except KeyError:
             pass
 
@@ -223,6 +248,10 @@ class Container(ScrollableWidget):
                 self.dirty_widgets.append(widget)
 
         return change
+
+
+
+
 
     def __iadd__(self, other: object) -> Container:
         """Adds a new widget, then returns self.
@@ -371,6 +400,7 @@ class Container(ScrollableWidget):
         char = " "
 
         fill = self.styles.fill
+
 
         def _align_left(text: str) -> str:
             """Align line to the left"""
@@ -689,6 +719,7 @@ class Container(ScrollableWidget):
             self.scroll(widget_bottom - view_bottom)
 
 
+
     def select(self, index: int | None = None) -> None:
         """Selects inner subwidget.
 
@@ -995,7 +1026,6 @@ class Container(ScrollableWidget):
             + ")"
         )
 
-
 class Splitter(Container):
     """A widget that displays other widgets, stacked horizontally."""
 
@@ -1099,3 +1129,5 @@ class Splitter(Container):
 
         self.height = max(widget.height for widget in self)
         return lines
+
+
