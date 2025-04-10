@@ -2,6 +2,7 @@ import pytermgui as ptg
 import shutil  # For terminal size check
 
 
+
 def button_press(manager: ptg.WindowManager) -> None:
     modal = container.select(7)
 
@@ -39,3 +40,11 @@ window = ptg.Window(container)
 with ptg.WindowManager() as manager:
     manager.layout.add_slot("Body")
     manager.add(window)
+    container.lazy_add(ptg.Button("BUTTON"))
+window=ptg.Window(container)
+ptg.overflow_preventer(container.height, window.height)
+with ptg.WindowManager() as manager:
+    manager.layout.add_slot("Body")
+    manager.add(window)
+    #if(container.height > window.height):
+        #raise ValueError("container size is too big and has overflown Window please reconfigure Container size")
