@@ -103,6 +103,10 @@ class InputField(Widget):  # pylint: disable=too-many-instance-attributes
         self._cached_state: int = self.width
         self._drag_start: tuple[int, int] | None = None
 
+        # Ensure height is calculated for multiline
+        if multiline:
+            self.height = len(self._lines)
+
     @property
     def selectables_length(self) -> int:
         """Get length of selectables in object"""
@@ -523,4 +527,9 @@ class InputField(Widget):  # pylint: disable=too-many-instance-attributes
         lines = lines or [""]
         self.height = len(lines)
 
+        # Adjust height for multiline input
+        if self.multiline:
+            self.height = len(lines)
+
         return lines
+

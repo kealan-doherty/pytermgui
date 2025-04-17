@@ -479,6 +479,10 @@ class Container(ScrollableWidget):
             else:
                 widget.width = available
 
+        # Update height for multiline widgets
+        if hasattr(widget, "multiline") and widget.multiline:
+            widget.height = len(widget.get_lines())
+
     def _apply_vertalign(
         self, lines: list[str], diff: int, padder: str
     ) -> tuple[int, list[str]]:
@@ -595,14 +599,18 @@ class Container(ScrollableWidget):
 
             widget_lines: list[str] = []
             for line in widget.get_lines():
+                # Ensure multiline widgets respect container height
                 if len(lines) + len(widget_lines) >= self.height - sum(has_top_bottom):
                     if overflow is Overflow.HIDE:
                         break
-
                     if overflow == Overflow.AUTO:
                         overflow = Overflow.SCROLL
 
                 widget_lines.append(align(line))
+
+            # Adjust widget height for multiline widgets
+            if hasattr(widget, "multiline") and widget.multiline:
+                widget.height = len(widget_lines)
 
             lines.extend(widget_lines)
 
@@ -1129,5 +1137,6 @@ class Splitter(Container):
 
         self.height = max(widget.height for widget in self)
         return lines
+
 
 
