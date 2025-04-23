@@ -1,6 +1,6 @@
 import pytermgui as ptg
 
-
+import overflow_preventer
 
 def button_press(manager: ptg.WindowManager) -> None:
     modal = container.select(7)
@@ -8,10 +8,13 @@ def button_press(manager: ptg.WindowManager) -> None:
 
 
 container = ptg.Container()
-for i in range(70):
+for i in range(10):
     container.lazy_add(ptg.Button("BUTTON"))
+
+container.lazy_add(ptg.Button('hi'))
 window=ptg.Window(container)
-ptg.overflow_preventer(container.height, window.height)
+
+
 with ptg.WindowManager() as manager:
     manager.layout.add_slot("Body")
     manager.add(window)
