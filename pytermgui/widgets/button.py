@@ -1,6 +1,8 @@
 """This module contains the `Button` class."""
 
 
+
+
 from __future__ import annotations
 
 from typing import Any, Callable, Optional
@@ -10,13 +12,15 @@ from ..input import keys
 from . import styles as w_styles
 from .base import Widget
 
+import sys
 
 class Button(Widget):
     """A simple Widget representing a mouse-clickable button"""
 
+
     styles = w_styles.StyleManager(
-        label="@surface dim #auto",
         highlight="@surface+1 dim #auto",
+        label = "@surface dim #auto",
         _current=None,
     )
 
