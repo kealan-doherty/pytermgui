@@ -17,12 +17,12 @@ import sys
 class Button(Widget):
     """A simple Widget representing a mouse-clickable button"""
 
-    if(sys.platform == 'win32'):
-        styles = w_styles.StyleManager(
-            label="@surface-3  #auto",
-            highlight="@surface+1 dim #auto",
-            _current=None,
-        )
+
+    styles = w_styles.StyleManager(
+        highlight="@surface+1 dim #auto",
+        label = "@surface dim #auto",
+        _current=None,
+    )
 
     chars: dict[str, w_styles.CharType] = {"delimiter": ["  ", "  "]}
 

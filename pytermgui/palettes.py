@@ -6,7 +6,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from typing import Any, Callable, Generator, Tuple
 
-from .colors import Color
+from .colors import Color, str_to_color
 from .fancy_repr import FancyYield
 from .markup import MarkupLanguage, tim
 
