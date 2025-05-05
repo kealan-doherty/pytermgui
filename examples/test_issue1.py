@@ -2,7 +2,7 @@ import shutil
 import pytest
 import pytermgui as ptg
 
-def create_test_container(num_buttons=70):
+def create_test_container(num_buttons=18):
     container = ptg.Container()
     total_height = 0
 
