@@ -745,7 +745,26 @@ class Container(ScrollableWidget):
                 widget.parent.scroll_to_widget(widget)
 
         self.selected_index = index
+        #print to debug the issue
+        print(f"Selected index: {index}, Scroll offset: {self._scroll_offset}")
 
+        # scroll fix
+        if self.selected is not None and self.overflow == Overflow.SCROLL:
+            selected_y = self.selected.pos[1]
+            container_y = self.pos[1]
+
+            visible_top = self._scroll_offset
+            visible_bottom = self._scroll_offset + self.height - 2  # Adjust for borders
+
+            rel_y = selected_y - container_y
+
+            if rel_y < visible_top:
+                self._scroll_offset = rel_y
+            elif rel_y >= visible_bottom:
+                self._scroll_offset = rel_y - (self.height - 2) + 1
+
+            self._scroll_offset = max(0, min(self._scroll_offset, self._max_scroll))
+            self.get_lines() #re-render the container with the new scroll position.
 
     def center(
         self, where: CenteringPolicy | None = None, store: bool = True
