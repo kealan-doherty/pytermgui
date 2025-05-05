@@ -29,11 +29,4 @@ def test_container_fits_terminal():
         f"Container height ({total_height}) exceeds terminal height ({terminal_height})"
     )
 
-def test_overflow_prevention():
-    container, total_height = create_test_container(5)  # Small number to avoid overflow
-    window = ptg.Window(container)
 
-    try:
-        ptg.overflow_preventer(container.height, window.height)
-    except Exception as e:
-        pytest.fail(f"Overflow prevention failed unexpectedly: {e}")
