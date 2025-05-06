@@ -9,8 +9,7 @@ from __future__ import annotations
 from itertools import zip_longest
 from typing import Any, Callable, Iterator, cast
 
-from docs.src.widgets.attrs.box import container
-from ..overflow_preventer imp
+
 from ..ansi_interface import MouseAction, MouseEvent, clear, reset
 from ..context_managers import cursor_at
 from ..enums import (

@@ -2,9 +2,10 @@ import pytermgui as ptg
 from pytermgui import trans_button
 
 
-def button_press(manager: ptg.WindowManager) -> None:
-    modal = container.select(7)
-
+"""
+this is my solution for individual issue for project 2 which showcases ten normal buttons then the transparent
+button to show the user the difference implemented in trans_button.py under pytermgui folder
+"""
 
 hi = trans_button.trans_button("Hello there",5)
 container = ptg.Container()
