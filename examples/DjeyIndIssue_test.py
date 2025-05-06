@@ -9,9 +9,10 @@ print("Terminal height:", terminal_height)
 container = ptg.Container(overflow=ptg.Overflow.SCROLL)
 container.height = terminal_height - 5  # Force scrolling
 
-# Add more widgets than the container can show
-for i in range(35):  # Push enough to overflow
-    container.lazy_add(ptg.Button(f"Button {i+1}"))
+# Add all buttons with the same dark blue color
+for i in range(35):
+    label = "[bold 18]Button {}".format(i + 1)
+    container.lazy_add(ptg.Button(label))
 
 # Debug print
 container_height = len(container._widgets)
@@ -19,9 +20,6 @@ print("Container widget count:", container_height)
 
 # Wrap in a window
 window = ptg.Window(container, box="DOUBLE")
-
-# set window height too (but it's the container that matters)
-# window.height = terminal_height - 2
 
 try:
     with ptg.WindowManager() as manager:
