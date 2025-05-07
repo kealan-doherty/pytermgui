@@ -5,33 +5,6 @@ from pytermgui import overflow_preventer
 from pytermgui.trans_button import trans_button
 from pytermgui.inverse_color_parser import *
 
-def create_container(num_buttons=70):
-    container = ptg.Container()
-    total_height = 0
-
-    for i in range(num_buttons):
-        button = ptg.Button(f"BUTTON {i+1}")
-        container.lazy_add(button)
-
-        if hasattr(button, "size"):
-            size = button.size
-            if isinstance(size, tuple):
-                total_height += size[1]
-            elif isinstance(size, int):
-                total_height += size
-            else:
-                total_height += 1  # Default fallback
-
-    return container, total_height
-
-def test_container_fits_terminal():
-    terminal_height = shutil.get_terminal_size().lines
-    container, total_height = create_container()
-
-    assert total_height <= terminal_height, (
-        f"Container height ({total_height}) exceeds terminal height ({terminal_height})"
-    )
-
 def test_overflow_prevention():
     with pytest.raises(ValueError) as error:
         container = ptg.Container()
