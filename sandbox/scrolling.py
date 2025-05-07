@@ -13,7 +13,7 @@ def main() -> None:
             else None,
         )
         manager.bind(ptg.keys.CTRL_L, lambda *_: manager.compositor.redraw())
-        scrollview = ptg.Container(overflow=ptg.Overflow.SCROLL, height=20, box="EMPTY")
+        scrollview = ptg.Container(overflow=ptg.Overflow.SCROLL, height=50, box="EMPTY")
         window = ptg.Window(scrollview)
 
         for i in range(256):

@@ -970,3 +970,31 @@ def background(text: str, color: str | Color, reset: bool = True) -> str:
     color.background = True
 
     return color(text, reset=reset)
+
+def inverted_colors(colors: list[str]) -> list[str]:
+    """
+    this function will take a list of strings containing colors and invert them
+    and return a new list of the inverted colors
+    """
+
+    for i in range(len(colors)):
+        match colors[i]:
+            case 'red':
+                colors[i] = 'green'
+            case 'green':
+                colors[i] = 'red'
+            case 'blue':
+                colors[i] = 'orange'
+            case 'orange':
+                colors[i] = 'blue'
+            case 'yellow':
+                colors[i] = 'purple'
+            case 'purple':
+                colors[i] = 'yellow'
+            case 'magenta':
+                colors[i] = 'green'
+
+    return colors
+
+
+

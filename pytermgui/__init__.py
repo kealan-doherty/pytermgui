@@ -33,7 +33,8 @@ from .serialization import *
 from .term import *
 from .widgets import *
 from .window_manager import *
-from .overflow_preventer import *
+
+
 
 # Silence warning if running as standalone module
 if "-m" in sys.argv:  # pragma: no cover
@@ -135,3 +136,5 @@ def auto(data: Any, **widget_args: Any) -> Optional[Widget | list[Splitter]]:
 
 # Alternative binding for the `auto` method
 Widget.from_data = staticmethod(auto)
+
+

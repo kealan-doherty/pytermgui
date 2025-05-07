@@ -1,50 +1,28 @@
+
 import pytermgui as ptg
-import shutil  # For terminal size check
-
-
-
-def button_press(manager: ptg.WindowManager) -> None:
-    modal = container.select(7)
-
+from pytermgui import overflow_preventer
+"""
+this contains the file to showcase group issue one with the overflow container and allow user 
+option to test when an overflow occurs or when it doesn't 
+"""
+user_input = input("Enter 1 to show a proper container or Enter two to show how an overflow is handled:  ")
 container = ptg.Container()
+if user_input == "1":
+    for i in range(10):
+        container.lazy_add(ptg.Button("see it works"))
 
-# Add buttons and calculate total height
-total_height = 0
-for i in range(70):
-    button = ptg.Button(f"BUTTON {i+1}")
-    container.lazy_add(button)
+elif user_input == "2":
+    for i in range(55):
+        container.lazy_add(ptg.Button("see it doesn't work"))
 
-    # Calculate total height of the container
-    if hasattr(button, "size"):
-        size = button.size
-        if isinstance(size, tuple):
-            total_height += size[1]  # Assuming size[1] is height
-        elif isinstance(size, int):
-            total_height += size
-        else:
-            total_height += 1  # Default fallback
 
-# Check terminal height
-terminal_height = shutil.get_terminal_size().lines
-print(f"Terminal height: {terminal_height}")
-print(f"Container height: {total_height}")
-
-# Raise error if container height exceeds terminal height
-if total_height > terminal_height:
-    raise ValueError(
-        f"Container height ({total_height}) exceeds terminal height ({terminal_height})"
-    )
-
-window = ptg.Window(container)
-
-with ptg.WindowManager() as manager:
-    manager.layout.add_slot("Body")
-    manager.add(window)
-    container.lazy_add(ptg.Button("BUTTON"))
 window=ptg.Window(container)
-ptg.overflow_preventer(container.height, window.height)
+
+container_height = container.height
+window_height = window.height
+overflow_preventer.overflow_preventer(container_height, window_height)
+
+
 with ptg.WindowManager() as manager:
     manager.layout.add_slot("Body")
     manager.add(window)
-    #if(container.height > window.height):
-        #raise ValueError("container size is too big and has overflown Window please reconfigure Container size")

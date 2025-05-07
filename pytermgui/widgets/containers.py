@@ -8,7 +8,8 @@ from __future__ import annotations
 
 from itertools import zip_longest
 from typing import Any, Callable, Iterator, cast
-from ..overflow_preventer import *
+
+
 from ..ansi_interface import MouseAction, MouseEvent, clear, reset
 from ..context_managers import cursor_at
 from ..enums import (
